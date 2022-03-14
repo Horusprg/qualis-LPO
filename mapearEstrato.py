@@ -4,8 +4,8 @@ import numpy as np
 import xlrd
 
 def mapear():
-    df = pd.read_excel('Resultado.xls', engine='openpyxl')
-    df2 = pd.read_excel('qualis.xls', engine='openpyxl')
+    df = pd.read_excel('Resultado.xls')
+    df2 = pd.read_excel('qualis.xls')
     R = list(Counter(df['Titulo Periodico ou Revista']))[1:]
 
     dic = {}
