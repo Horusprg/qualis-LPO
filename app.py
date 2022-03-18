@@ -12,61 +12,95 @@ import xml.etree.ElementTree as ET
 import PyPDF2 as p2
 import BaseDeCorrecoes
 from xlutils.copy import copy
+from tkinter import messagebox
+import pandas as pd
+from collections import Counter
+import numpy as np
+
 
 xlrd.xlsx.ensure_elementtree_imported(False, None)
 xlrd.xlsx.Element_has_iter = True
 
+def center(win):
+    # :param win: the main window or Toplevel window to center
+
+    # Apparently a common hack to get the window size. Temporarily hide the
+    # window to avoid update_idletasks() drawing the window in the wrong
+    # position.
+    win.update_idletasks()  # Update "requested size" from geometry manager
+
+    # define window dimensions width and height
+    width = win.winfo_width()
+    frm_width = win.winfo_rootx() - win.winfo_x()
+    win_width = width + 2 * frm_width
+
+    height = win.winfo_height()
+    titlebar_height = win.winfo_rooty() - win.winfo_y()
+    win_height = height + titlebar_height + frm_width
+
+    # Get the window position from the top dynamically as well as position from left or right as follows
+    x = win.winfo_screenwidth() // 2 - win_width // 2
+    y = win.winfo_screenheight() // 2 - win_height // 2
+
+    # this is the line that will center your window
+    win.geometry('+{}+{}'.format(int(x-width*1.5), int(y-height/2)))
+
+    # This seems to draw the window frame immediately, so only call deiconify()
+    # after setting correct window position
+    win.deiconify()
 
 curriculos = []
 
-col = 0
 anos_validos = {'2021','2020','2019','2018','2017','2016'}
-
-#Criar planilha de resultado
-notas = ['A1','A2','A3','A4','B1','B2','B3','B4','C']
-workbook = xlwt.Workbook()
-worksheet = workbook.add_sheet(u'Planilha_1')  #Cria aba Planilha_1
-worksheet.write(0, 0, u'Documento')
-worksheet.write(0, 1, u'Ano')
-worksheet.write(0, 2, u'Titulo')
-worksheet.write(0, 3, u'DOI')
-worksheet.write(0, 4, u'Sigla')
-worksheet.write(0, 5, u'Titulo Periodico ou Revista')
-worksheet.write(0, 6, u'Autores')
-worksheet.write(0, 7, u'Estratos')
-worksheet.write(0, 8, u'Notas')
-worksheet._cell_overwrite_ok = True
-
-#Cria aba Planilha_2
-worksheet3 = workbook.add_sheet(u'Planilha_2')
-worksheet3.write(0, col, u'Professor')
-col = col + 1
-worksheet3.write(0, col, u'2017')
-col = col + 1
-worksheet3.write(0, col, u'Conferência')
-col = col + 1
-
-for item in notas:
-    worksheet3.write(0, col, item)
-    col = col + 1
-
-worksheet3.write(0, col, u'Periódico')
-col = col + 1
-
-for item in notas:
-    worksheet3.write(0, col, item)
-    col = col + 1
-
-col = col + 1
 
 
 #Aplicação usando tkinter
 class Application:
 
-    def __init__(self, col):
+    def __init__(self):
         self.layout = Tk()
         self.layout.title("Gerador Qualis")
         self.layout.configure(bg="#c9e3d5")
+        self.layout.resizable(False, False)
+        center(self.layout)
+
+        #Criar planilha de resultado
+        self.col = 0
+        notas = ['A1','A2','A3','A4','B1','B2','B3','B4','C']
+        self.workbook = xlwt.Workbook()
+        self.worksheet = self.workbook.add_sheet(u'Planilha_1')  #Cria aba Planilha_1
+        self.worksheet.write(0, 0, u'Documento')
+        self.worksheet.write(0, 1, u'Ano')
+        self.worksheet.write(0, 2, u'Titulo')
+        self.worksheet.write(0, 3, u'DOI')
+        self.worksheet.write(0, 4, u'Sigla')
+        self.worksheet.write(0, 5, u'Titulo Periodico ou Revista')
+        self.worksheet.write(0, 6, u'Autores')
+        self.worksheet.write(0, 7, u'Estratos')
+        self.worksheet.write(0, 8, u'Notas')
+        self.worksheet._cell_overwrite_ok = True
+
+        #Cria aba Planilha_2
+        self.worksheet3 = self.workbook.add_sheet(u'Planilha_2')
+        self.worksheet3.write(0, self.col, u'Professor')
+        self.col = self.col + 1
+        self.worksheet3.write(0, self.col, u'2017')
+        self.col = self.col + 1
+        self.worksheet3.write(0, self.col, u'Conferência')
+        self.col = self.col + 1
+
+        for item in notas:
+            self.worksheet3.write(0, self.col, item)
+            self.col = self.col + 1
+
+        self.worksheet3.write(0, self.col, u'Periódico')
+        self.col = self.col + 1
+
+        for item in notas:
+            self.worksheet3.write(0, self.col, item)
+            self.col = self.col + 1
+
+        self.col = self.col + 1
         self.home()
         self.layout.mainloop()
 
@@ -116,8 +150,12 @@ class Application:
     #função para ler a pasta com os currículos
     def folder_select(self):
         folder_curriculos= filedialog.askdirectory()
-        for f in glob.glob(folder_curriculos+"/*.xml"):
-            curriculos.append(f)
+        try:
+            for f in glob.glob(folder_curriculos+"/*.xml"):
+                curriculos.append(f)
+        except:
+            self.home()
+                
         #limpar tela
         self.msg2.destroy()
         self.folder_search.destroy()
@@ -159,7 +197,7 @@ class Application:
         #curriculo indesejado?
         self.msg4 = Label(self.layout,
                     background="#c9e3d5",
-                    text="Se houver algum currículo indesejado, retire-o da pasta do programa.\nDeseja continuar?", 
+                    text="Se houver algum currículo indesejado, retire-o da pasta dos currículos manualmente.\nDeseja continuar?", 
                     font=("Calibri", "13", "bold"))
         self.msg4.grid(row=4, column=1, sticky=S, pady=5)
         self.msg4Y = Button(self.layout,
@@ -201,13 +239,17 @@ class Application:
             pg_extraida = page.extractText().split("\n")
             resultado_total = (resultado_total + pg_extraida)     #Script ler PDF fim
 		
-        workbook2 = xlrd.open_workbook('QualisEventosComp.xls')    #Script ler xls
-        worksheet2 = workbook2.sheet_by_index(1)
+        self.workbook2 = xlrd.open_workbook('QualisEventosComp.xls')    #Script ler xls
+        self.worksheet2 = self.workbook2.sheet_by_index(1)
 		
         x = 0
         somaNotas = 0
 
         for n in range(0, len(curriculos)):                        #Laço para ler currículos
+            try:
+                self.msg6.destroy()
+            except:
+                pass
             tree = ET.parse(curriculos[n])
             root = tree.getroot()
                 
@@ -313,18 +355,16 @@ class Application:
             p20B3 = 0
             p20B4 = 0
             p20C = 0
-            ##################################################################################
-            
-            self.msg5.destroy()
+
             for t in root.iter('DADOS-GERAIS'):                    #Imprimir nome do professor
                 nomeProf = str(t.attrib['NOME-COMPLETO']).upper()
                 self.msg6 = Label(self.layout,
                             background="#c9e3d5",
-                            text='Analisando publicações de {}'.format(nomeProf), 
-                            font=("Calibri", "14"))
+                            text='Analisando publicações semelhantes de {}'.format(nomeProf), 
+                            font=("Calibri", "16"))
                 self.msg6.grid(row=2, column=1, sticky=S, pady=30)
                 x = x + 2
-                worksheet.write(x, 0, nomeProf)
+                self.worksheet.write(x, 0, nomeProf)
 
             x = x + 1
             for trabalhos in root.iter('TRABALHO-EM-EVENTOS'):        #Varre currículo
@@ -415,10 +455,10 @@ class Application:
                     ########################################################
                     
                     if (condicao != '-'):
-                        for row_num in range(worksheet2.nrows):                #Comparação por SIGLA no resultado[6]
+                        for row_num in range(self.worksheet2.nrows):                #Comparação por SIGLA no resultado[6]
                             if row_num == 0:
                                 continue
-                            row = worksheet2.row_values(row_num)
+                            row = self.worksheet2.row_values(row_num)
                             #Comparação pelo resultado[6]
                             if (' {} '.format(row[0]) in tituloAnais):
                                 if (row[0] != 'SBRC'):
@@ -483,10 +523,10 @@ class Application:
                                 estratos = '-'
                         
                         
-                        for row_num in range(worksheet2.nrows):                       #Comparação por nome
+                        for row_num in range(self.worksheet2.nrows):                       #Comparação por nome
                             if row_num == 0:
                                 continue
-                            row = worksheet2.row_values(row_num)
+                            row = self.worksheet2.row_values(row_num)
                             if (estratos == '-'):
                                 if (str(row[1]).upper() in str(resultado[6]).upper()):
                                     sigla = row[0]
@@ -501,10 +541,10 @@ class Application:
                                     estratos = row[8]
                                     break
                             
-                        for row_num in range(worksheet2.nrows):                #Comparação por SIGLA casos especiais
+                        for row_num in range(self.worksheet2.nrows):                #Comparação por SIGLA casos especiais
                             if row_num == 0:
                                 continue
-                            row = worksheet2.row_values(row_num)
+                            row = self.worksheet2.row_values(row_num)
                             if (estratos == '-'):
                                 if (" ({}'2019)".format(row[0]) in resultado[6]):
                                     sigla = row[0]
@@ -515,34 +555,34 @@ class Application:
                                     estratos = row[8]
                                     break
                     
-                    worksheet.write(x, 0, resultado[0])
-                    worksheet.write(x, 1, resultado[1])
-                    worksheet.write(x, 4, sigla)
+                    self.worksheet.write(x, 0, resultado[0])
+                    self.worksheet.write(x, 1, resultado[1])
+                    self.worksheet.write(x, 4, sigla)
                     if ('COMPLETO' in tituloAnais):                          #Correção de tabela, elimina o "COMPLETO" do lugar errado
-                        worksheet.write(x, 2, resultado[2] + resultado [3] + resultado[4])
-                        worksheet.write(x, 3, resultado[5])
-                        worksheet.write(x, 5, resultado[8] + ' / ' + autor)
-                        worksheet.write(x, 6, resultado[9])
+                        self.worksheet.write(x, 2, resultado[2] + resultado [3] + resultado[4])
+                        self.worksheet.write(x, 3, resultado[5])
+                        self.worksheet.write(x, 5, resultado[8] + ' / ' + autor)
+                        self.worksheet.write(x, 6, resultado[9])
                     elif ('COMPLETO' in nomeEvento):
-                        worksheet.write(x, 2, resultado[2] + resultado[3])
-                        worksheet.write(x, 3, resultado[4])
-                        worksheet.write(x, 5, autor + ' / ' + resultado[6])
-                        worksheet.write(x, 6, resultado[8])
+                        self.worksheet.write(x, 2, resultado[2] + resultado[3])
+                        self.worksheet.write(x, 3, resultado[4])
+                        self.worksheet.write(x, 5, autor + ' / ' + resultado[6])
+                        self.worksheet.write(x, 6, resultado[8])
                     else:
-                        worksheet.write(x, 2, resultado[2])
+                        self.worksheet.write(x, 2, resultado[2])
                         if (resultado[3] != ''):
-                            worksheet.write(x, 3, resultado[3])
+                            self.worksheet.write(x, 3, resultado[3])
                         else:
-                            worksheet.write(x, 3, '-')
-                        worksheet.write(x, 5, tituloAnais + ' / ' + nomeEvento)
+                            self.worksheet.write(x, 3, '-')
+                        self.worksheet.write(x, 5, tituloAnais + ' / ' + nomeEvento)
                         if (len(resultado) > 8):
                             if (nomeProf in str(autor).upper()):
-                                worksheet.write(x, 6, autor)
+                                self.worksheet.write(x, 6, autor)
                             elif (nomeProf in str(resultado[8]).upper()):
-                                worksheet.write(x, 6, resultado[8])
+                                self.worksheet.write(x, 6, resultado[8])
                         else:
-                            worksheet.write(x, 6, autor)
-                    worksheet.write(x, 7, estratos)
+                            self.worksheet.write(x, 6, autor)
+                    self.worksheet.write(x, 7, estratos)
                     
                     nota = 'SEM QUALIS'             #Calcula a nota do estrato
                     if (estratos == 'A1'):
@@ -563,7 +603,7 @@ class Application:
                         nota = BaseDeCorrecoes.B4c
                     elif (estratos == 'C'):
                         nota = BaseDeCorrecoes.Cc
-                    worksheet.write(x, 8, nota)
+                    self.worksheet.write(x, 8, nota)
                     
                     if (nota != 'SEM QUALIS'):                  #Contador de estratos das conferências
                         totalNota = totalNota + nota
@@ -658,7 +698,6 @@ class Application:
                                 c20C = c20C + 1
                         
                     x = x + 1
-            self.msg6.destroy()
         
             for trabalhos in root.iter('ARTIGO-PUBLICADO'):           #Varrer currículo
                 autores = ''
@@ -739,75 +778,29 @@ class Application:
                                             estratos2 = resultado_total[i+1]
                                             break
                                         else:
-                                            def sim(same, sameY, sameN):
-                                                estratos2 = resultado_total[i+1]
-                                                resp = True
-                                                same.destroy()
-                                                sameY.destroy()
-                                                sameN.destroy()
-
-                                            def nao(same, sameY, sameN):
-                                                estratos2 = '-'
-                                                resp = True
-                                                same.destroy()
-                                                sameY.destroy()
-                                                sameN.destroy()
+                                            same = messagebox.askquestion("Verificação", resultado2[5] + ' é o mesmo que ' + resultado_total[i] + '?')
                                             resp = False
-                                            
                                             while (resp == False):
-                                                self.same = Label(self.layout,
-                                                            background="#c9e3d5",
-                                                            text=resultado2[5] + ' é o mesmo que ' + resultado_total[i] + '?', 
-                                                            font=("Calibri", "13", "bold"))
-                                                self.same.grid(row=3, column=1, sticky=S, pady=5)
-                                                self.sameY = Button(self.layout,
-                                                            text="SIM",
-                                                            font=("Calibri", "12"),
-                                                            width=8,
-                                                            command= lambda: sim(self.same, self.sameY, self.sameN))
-                                                self.sameY.grid(row=4, column=1, sticky=W, pady=15, padx=180)
-                                                self.sameN = Button(self.layout,
-                                                            text="NÃO",
-                                                            font=("Calibri", "12"),
-                                                            width=8,
-                                                            command= lambda: nao(self.same, self.sameY, self.sameN))
-                                                self.sameN.grid(row=4, column=1, sticky=E, pady=15, padx=180)
+                                                if (same == 'yes'):
+                                                    estratos2 = resultado_total[i+1]
+                                                    resp = True
+                                                    break
+                                                elif (same == 'no'):
+                                                    estratos2 = '-'
+                                                    resp = True
 
                                     elif (len(resultado_total[i]) - len(resultado2[5]) > 12):
                                         if ('{} ('.format(str(resultado2[5]).upper()) in resultado_total[i]):
-                                            def sim(same, sameY, sameN):
-                                                estratos2 = resultado_total[i+1]
-                                                resp = True
-                                                same.destroy()
-                                                sameY.destroy()
-                                                sameN.destroy()
-                                                
-                                            def nao(same, sameY, sameN):
-                                                estratos2 = '-'
-                                                resp = True
-                                                same.destroy()
-                                                sameY.destroy()
-                                                sameN.destroy()
-                                            
+                                            same = messagebox.askquestion("Verificação", resultado2[5] + ' é o mesmo que ' + resultado_total[i] + '?')
                                             resp = False
                                             while (resp == False):
-                                                self.same = Label(self.layout,
-                                                            background="#c9e3d5",
-                                                            text=resultado2[5] + ' é o mesmo que ' + resultado_total[i] + '?', 
-                                                            font=("Calibri", "13", "bold"))
-                                                self.same.grid(row=3, column=1, sticky=S, pady=5)
-                                                self.sameY = Button(self.layout,
-                                                            text="SIM",
-                                                            font=("Calibri", "12"),
-                                                            width=8,
-                                                            command= lambda: sim(self.same, self.sameY, self.sameN))
-                                                self.sameY.grid(row=4, column=1, sticky=W, pady=15, padx=180)
-                                                self.sameN = Button(self.layout,
-                                                            text="NÃO",
-                                                            font=("Calibri", "12"),
-                                                            width=8,
-                                                            command= lambda: nao(self.same, self.sameY, self.sameN))
-                                                self.sameN.grid(row=4, column=1, sticky=E, pady=15, padx=180)
+                                                if (same == 'yes'):
+                                                    estratos2 = resultado_total[i+1]
+                                                    resp = True
+                                                    break
+                                                elif (same == 'no'):
+                                                        estratos2 = '-'
+                                                        resp = True
                             
                             elif (str(resultado2[6]).upper() in resultado_total[i]):
                                 estratos2 = resultado_total[i+1]
@@ -816,23 +809,23 @@ class Application:
                                 estratos2 = '-'
                     
                     
-                    worksheet.write(x, 0, resultado2[0])
-                    worksheet.write(x, 1, resultado2[1])
-                    worksheet.write(x, 4, '-')
+                    self.worksheet.write(x, 0, resultado2[0])
+                    self.worksheet.write(x, 1, resultado2[1])
+                    self.worksheet.write(x, 4, '-')
                     if ('COMPLETO' in resultado2[5]):                        #Correção de tabela, elimina o "COMPLETO" do lugar errado
-                        worksheet.write(x, 2, resultado2[2] + resultado2[3])
-                        worksheet.write(x, 3, resultado2[4])
-                        worksheet.write(x, 5, resultado2[6])
-                        worksheet.write(x, 6, resultado2[7])
+                        self.worksheet.write(x, 2, resultado2[2] + resultado2[3])
+                        self.worksheet.write(x, 3, resultado2[4])
+                        self.worksheet.write(x, 5, resultado2[6])
+                        self.worksheet.write(x, 6, resultado2[7])
                     else:
-                        worksheet.write(x, 2, resultado2[2])
+                        self.worksheet.write(x, 2, resultado2[2])
                         if (resultado2[3] != ''):
-                            worksheet.write(x, 3, resultado2[3])
+                            self.worksheet.write(x, 3, resultado2[3])
                         else:
-                            worksheet.write(x, 3, '-')
-                        worksheet.write(x, 5, resultado2[5])
-                        worksheet.write(x, 6, resultado2[6])
-                    worksheet.write(x, 7, estratos2)
+                            self.worksheet.write(x, 3, '-')
+                        self.worksheet.write(x, 5, resultado2[5])
+                        self.worksheet.write(x, 6, resultado2[6])
+                    self.worksheet.write(x, 7, estratos2)
                     
                     nota = 'SEM QUALIS'               #Calcula nota do estrato
                     if (estratos2 == 'A1'):
@@ -853,7 +846,7 @@ class Application:
                         nota = BaseDeCorrecoes.B4p
                     elif (estratos2 == 'C'):
                         nota = BaseDeCorrecoes.Cp
-                    worksheet.write(x, 8, nota)
+                    self.worksheet.write(x, 8, nota)
                     
                     if (nota != 'SEM QUALIS'):            #Contador de estratos dos periódicos
                         totalNota = totalNota + nota
@@ -948,8 +941,8 @@ class Application:
                                 p20C = p20C + 1
                         
                     x = x + 1
-            worksheet.write(x, 7, 'Nota Total')
-            worksheet.write(x, 8, totalNota)
+            self.worksheet.write(x, 7, 'Nota Total')
+            self.worksheet.write(x, 8, totalNota)
             contTotalc = cont17c
             contTotalp = cont17p
             totalNota = nota17
@@ -957,96 +950,102 @@ class Application:
             #Planilha_2
             yi = 0
             if (xi <= len(curriculos)):
-                worksheet3.write(xi, yi, nomeProf)
+                self.worksheet3.write(xi, yi, nomeProf)
                 yi = yi + 2
             
-                worksheet3.write(xi, yi, cont17c)
+                self.worksheet3.write(xi, yi, cont17c)
                 yi = yi + 1
-                worksheet3.write(xi, yi, c17A1)
+                self.worksheet3.write(xi, yi, c17A1)
                 yi = yi + 1
-                worksheet3.write(xi, yi, c17A2)
+                self.worksheet3.write(xi, yi, c17A2)
                 yi = yi + 1
-                worksheet3.write(xi, yi, c17A3)
+                self.worksheet3.write(xi, yi, c17A3)
                 yi = yi + 1
-                worksheet3.write(xi, yi, c17A4)
+                self.worksheet3.write(xi, yi, c17A4)
                 yi = yi + 1
-                worksheet3.write(xi, yi, c17B1)
+                self.worksheet3.write(xi, yi, c17B1)
                 yi = yi + 1
-                worksheet3.write(xi, yi, c17B2)
+                self.worksheet3.write(xi, yi, c17B2)
                 yi = yi + 1
-                worksheet3.write(xi, yi, c17B3)
+                self.worksheet3.write(xi, yi, c17B3)
                 yi = yi + 1
-                worksheet3.write(xi, yi, c17B4)
+                self.worksheet3.write(xi, yi, c17B4)
                 yi = yi + 1
-                worksheet3.write(xi, yi, c17C)
+                self.worksheet3.write(xi, yi, c17C)
                 yi = yi + 1
-                worksheet3.write(xi, yi, cont17p)
+                self.worksheet3.write(xi, yi, cont17p)
                 yi = yi + 1
-                worksheet3.write(xi, yi, p17A1)
+                self.worksheet3.write(xi, yi, p17A1)
                 yi = yi + 1
-                worksheet3.write(xi, yi, p17A2)
+                self.worksheet3.write(xi, yi, p17A2)
                 yi = yi + 1
-                worksheet3.write(xi, yi, p17A3)
+                self.worksheet3.write(xi, yi, p17A3)
                 yi = yi + 1
-                worksheet3.write(xi, yi, p17A4)
+                self.worksheet3.write(xi, yi, p17A4)
                 yi = yi + 1
-                worksheet3.write(xi, yi, p17B1)
+                self.worksheet3.write(xi, yi, p17B1)
                 yi = yi + 1
-                worksheet3.write(xi, yi, p17B2)
+                self.worksheet3.write(xi, yi, p17B2)
                 yi = yi + 1
-                worksheet3.write(xi, yi, p17B3)
+                self.worksheet3.write(xi, yi, p17B3)
                 yi = yi + 1
-                worksheet3.write(xi, yi, p17B4)
+                self.worksheet3.write(xi, yi, p17B4)
                 yi = yi + 1
-                worksheet3.write(xi, yi, p17C)
+                self.worksheet3.write(xi, yi, p17C)
                 yi = yi + 3
                 
                 yi = yi - 1
-                worksheet3.write(xi, yi, contTotalc)
+                self.worksheet3.write(xi, yi, contTotalc)
                 yi = yi + 1
-                worksheet3.write(xi, yi, contTotalp)
+                self.worksheet3.write(xi, yi, contTotalp)
                 yi = yi + 1
-                worksheet3.write(xi, yi, totalNota)
+                self.worksheet3.write(xi, yi, totalNota)
                     
                 somaNotas = somaNotas + totalNota
                 xi = xi + 1
 
-        worksheet3.write(0, col, u'Total Conferências')
-        col = col + 1
-        worksheet3.write(0, col, u'Total Periódicos')
-        col = col + 1
-        worksheet3.write(0, col, u'Pontuação Total')
+        try:
+            self.msg6.destroy()
+        except:
+            pass
+        self.worksheet3.write(0, self.col, u'Total Conferências')
+        self.col = self.col + 1
+        self.worksheet3.write(0, self.col, u'Total Periódicos')
+        self.col = self.col + 1
+        self.worksheet3.write(0, self.col, u'Pontuação Total')
 
         mediaNotas = (somaNotas/len(curriculos))
-        worksheet3.write(xi+1, yi-1, 'SOMA')
-        #worksheet3.write(xi+1, 70, somaNotas)
-        #worksheet3.write(xi+1, 71, '=SOMA(BS2:BS23)')#As fórmulas ficam apenas como texto, precisa clicar na célula e apertar "enter"
-        worksheet3.write(xi+2, yi-1, 'MÉDIA')
-        #worksheet3.write(xi+2, 70, mediaNotas)
-        #worksheet3.write(xi+2, 71, '=SOMA(BS2:BS23)/len(curriculos)')
+        self.worksheet3.write(xi+1, yi-1, 'SOMA')
+        #self.worksheet3.write(xi+1, 70, somaNotas)
+        #self.worksheet3.write(xi+1, 71, '=SOMA(BS2:BS23)')#As fórmulas ficam apenas como texto, precisa clicar na célula e apertar "enter"
+        self.worksheet3.write(xi+2, yi-1, 'MÉDIA')
+        #self.worksheet3.write(xi+2, 70, mediaNotas)
+        #self.worksheet3.write(xi+2, 71, '=SOMA(BS2:BS23)/len(curriculos)')
 
-        workbook.save('Resultado.xls')#salva em arquivo xls
-
+        self.file = filedialog.askdirectory(title="Selecione um local para salvar a planilha produzida!")
+        self.file = self.file+'\\Resultado.xls'
+        self.workbook.save(self.file)#salva em arquivo xls
         ###############################################################
         #
         #############################INTEGRAÇÃO DO PROGRAMA DE CORREÇÃO
         #
         ###############################################################
         def decSim():
+            self.msg5.destroy()
             self.decisao.destroy()
             self.decisaoY.destroy()
             self.decisaoN.destroy()
 
-            rb = xlrd.open_workbook('Resultado.xls')        #Ler arquivo para fazer cópia
+            rb = xlrd.open_workbook(self.file)        #Ler arquivo para fazer cópia
             wb = copy(rb)
             
             lista = []
-            workbook = xlrd.open_workbook('Resultado.xls')  #Carrega arquivo para leitura
-            worksheet = workbook.sheet_by_index(0)
-            for row_num in range(worksheet.nrows):
+            self.workbook = xlrd.open_workbook(self.file)  #Carrega arquivo para leitura
+            self.worksheet = self.workbook.sheet_by_index(0)
+            for row_num in range(self.worksheet.nrows):
                 if row_num == 0:
                     continue
-                row = worksheet.row_values(row_num)
+                row = self.worksheet.row_values(row_num)
                 lista = lista + row
             
             #Base de correção para os que não foram reconhecidos
@@ -1058,17 +1057,11 @@ class Application:
             nota192 = 0
             nota202 = 0
             nt = 1
-            for row_num in range(worksheet.nrows):     #Varre linha por linha do NotasExtraídas
+            for row_num in range(self.worksheet.nrows):     #Varre linha por linha do NotasExtraídas
                 w_sheet = wb.get_sheet(0)
                 if row_num == 0:
                     continue
-                row = worksheet.row_values(row_num)
-                if (row[0] != '' and row[1] == ''):
-                    self.msg9 = Label(self.layout,
-                                background="#c9e3d5",
-                                text='Corrigindo notas de {}'.format(row[0]), 
-                                font=("Calibri", "13", "bold"))
-                    self.msg9.grid(row=3, column=1, sticky=S, pady=5)
+                row = self.worksheet.row_values(row_num)
 
                 if (row[8] != 'SEM QUALIS'  and row[1] != ''):
                     novaNota2 = row[8]
@@ -1095,11 +1088,6 @@ class Application:
                     
                     w_sheet = wb.get_sheet(1)
                     totalNotas2 = nota172
-                    self.msg10 = Label(self.layout,
-                                background="#c9e3d5",
-                                text='Pontuação total = {}'.format(totalNotas2), 
-                                font=("Calibri", "13", "bold"))
-                    self.msg10.grid(row=4, column=1, sticky=S, pady=5)
 
                     somaNotas2 = somaNotas2 + totalNotas2
                     w_sheet.write(nt, yi, totalNotas2)
@@ -1109,25 +1097,70 @@ class Application:
                     nota192 = 0
                     nota202 = 0
                     nt = nt + 1
-            
-            self.msg9.destroy()
-            self.msg10.destroy()
 
             w_sheet = wb.get_sheet(1)
             mediaNotas2 = somaNotas2/len(curriculos)
             w_sheet.write(nt+1, yi, somaNotas2)
             w_sheet.write(nt+2, yi, mediaNotas2)
                     
-            wb.save('Resultado.xls')
+            wb.save(self.file)
             self.msgf = Label(self.layout,
                         background="#c9e3d5",
                         text='NOTAS CORRIGIDAS! \nPara conferir a planilha com os resultados, consulte o arquivo Resultados.xls.', 
                         font=("Calibri", "13", "bold"))
             self.msgf.grid(row=3, column=1, sticky=S, pady=5)
-            self.layout.destroy()
+            self.map = Label(self.layout,
+                    background="#c9e3d5",
+                    text='DESEJA MAPEAR O EXTRATO PRODUZIDO?', 
+                    font=("Calibri", "13", "bold"))
+            self.map.grid(row=4, column=1, sticky=S, pady=5)
+            self.mapY = Button(self.layout,
+                        text="SIM",
+                        font=("Calibri", "12"),
+                        width=8,
+                        command= lambda: [self.mapear(),
+                                self.map.destroy(),
+                                self.mapY.destroy(),
+                                self.mapN.destroy(),
+                                self.msgf.destroy()])
+
+            self.mapY.grid(row=5, column=1, sticky=W, pady=15, padx=180)
+            self.mapN = Button(self.layout,
+                        text="NÃO",
+                        font=("Calibri", "12"),
+                        width=8,
+                        command= self.layout.destroy)
+            self.mapN.grid(row=5, column=1, sticky=E, pady=15, padx=180)
             
         def decNao():
-            self.layout.destroy()
+            self.msg5.destroy()
+            self.decisao.destroy()
+            self.decisaoY.destroy()
+            self.decisaoN.destroy()
+
+            self.map = Label(self.layout,
+                    background="#c9e3d5",
+                    text='DESEJA MAPEAR O EXTRATO PRODUZIDO?', 
+                    font=("Calibri", "13", "bold"))
+            self.map.grid(row=4, column=1, sticky=S, pady=5)
+            self.map.grid(row=4, column=1, sticky=S, pady=5)
+            self.mapY = Button(self.layout,
+                        text="SIM",
+                        font=("Calibri", "12"),
+                        width=8,
+                        command= lambda: [self.mapear(),
+                                self.map.destroy(),
+                                self.mapY.destroy(),
+                                self.mapN.destroy(),
+                                self.msgf.destroy()])
+
+            self.mapY.grid(row=5, column=1, sticky=W, pady=15, padx=180)
+            self.mapN = Button(self.layout,
+                        text="NÃO",
+                        font=("Calibri", "12"),
+                        width=8,
+                        command= self.layout.destroy)
+            self.mapN.grid(row=5, column=1, sticky=E, pady=15, padx=180)
 
         self.decisao = Label(self.layout,
                     background="#c9e3d5",
@@ -1146,5 +1179,34 @@ class Application:
                     width=8,
                     command= decNao)
         self.decisaoN.grid(row=4, column=1, sticky=E, pady=15, padx=180)
+    
+    def mapear(self):
+        self.final = Label(self.layout,
+                    background="#c9e3d5",
+                    text='MAPEAMENTO REALIZADO!', 
+                    font=("Calibri", "13", "bold"))
+        self.final.grid(row=2, column=1, sticky=S, pady=5)
 
-Application(col)
+        df = pd.read_excel(self.file)
+        df2 = pd.read_csv('qualis.csv')
+        R = list(Counter(df['Titulo Periodico ou Revista']))[1:]
+
+        dic = {}
+
+        for revista in R:
+            idxrevista = df2[df2['Título'] == revista.upper()].index
+            
+            if len(idxrevista) > 0:
+                estratoantigo = df2.loc[idxrevista]['Estrato'][idxrevista[0]]
+            else:
+                estratoantigo = np.nan
+                
+            dic[revista] = estratoantigo
+
+        for revista in dic:
+            idxs = df[df["Titulo Periodico ou Revista"] == revista].index
+            df.loc[idxs, "Estrato Antigo"] = dic[revista]
+
+        df.to_excel(self.file)
+
+Application()
