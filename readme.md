@@ -4,10 +4,10 @@ conda activate py39env
 Criar package:
 pyinstaller GeradorQualis.py --windowed --clean --icon= lpo.ico
 
-<h1>Tutorial<h1/>
-<h2>Introdução<h2/>
+<h1>Tutorial</>
+<h2>Introdução</>
 <h3>O objetivo dessa aplicação é facilitar o processo de consulta da lista sucupira e cálculo das pontuações dos currículos selecionados.<h3/>
-<h2>Estrutura<h2/>
+<h2>Estrutura</>
 <h3>
 A aplicação foi desenvolvida utilizando a biblioteca tkinter, a fim de produzir um executável para distribuição. Devido a isso, todo o código está contido em um único arquivo (link), tal que está dividido em:
 
