@@ -155,29 +155,29 @@ class Application:
                     image = logo1,
                     background="#c9e3d5")
         self.imagem1.image = logo1
-        self.imagem1.grid(row=6, column=2, sticky=S, pady=10, padx=10)
+        self.imagem1.grid(row=6, column=2, sticky=S, pady=20, padx=35)
 
         #logo ufpa
         logo2 = Image.open("assets/UFPA.png")
-        logo2 = logo2.resize((78,100))
+        logo2 = logo2.resize((85,100))
         logo2 = ImageTk.PhotoImage(logo2)
         self.imagem2 = Label(self.layout,
                     text = "adicionando",
                     image = logo2,
                     background="#c9e3d5")
         self.imagem2.image = logo2
-        self.imagem2.grid(row=6, column=0, sticky=S, pady=10, padx=33)
+        self.imagem2.grid(row=6, column=0, sticky=S, pady=10, padx=65)
 
         #logo ppgee
         logo3 = Image.open("assets/ppgee.jpg")
-        logo3 = logo3.resize((220,80))
+        logo3 = logo3.resize((215,80))
         logo3 = ImageTk.PhotoImage(logo3)
         self.imagem3 = Label(self.layout,
                     text = "adicionando",
                     image = logo3,
                     background="#c9e3d5")
         self.imagem3.image = logo3
-        self.imagem3.grid(row=6, column=1, sticky=S, pady=10, padx=10)
+        self.imagem3.grid(row=6, column=1, sticky=S, pady=20, padx=10)
         
         #mensagens
         self.msg1 = Label(self.layout,
@@ -296,7 +296,7 @@ class Application:
         self.msg5 = Label(self.layout,
                     background="#c9e3d5",
                     text=f"Documento importado:\n{self.workbook2_file}", 
-                    font=("Calibri", "16", "bold"))
+                    font=("Calibri", "14", "bold"))
         self.msg5.grid(row=1, column=1, sticky=S, pady=40)
         
         #Centrar o ecrã
@@ -431,7 +431,7 @@ class Application:
                 nomeProf = str(t.attrib['NOME-COMPLETO']).upper()
                 self.msg6 = Label(self.layout,
                             background="#c9e3d5",
-                            text=f'Analisando publicações semelhantes de {nomeProf}\n{n+1} de {len(curriculos)}\nAGUARDE', 
+                            text=f'Analisando publicações semelhantes de {nomeProf}\n{n+1} de {len(curriculos)}\n\nAGUARDE', 
                             font=("Calibri", "16"))
                 self.msg6.grid(row=2, column=1, sticky=S, pady=30)
                 x = x + 2
@@ -1255,7 +1255,7 @@ class Application:
         self.decisao = Label(self.layout,
                     background="#c9e3d5",
                     text='DESEJA APLICAR A CORREÇÃO DE NOTAS?\nA correção é a divisão de notas para uma publicação que está no currículo de mais de um professor.', 
-                    font=("Calibri", "16", "bold"))
+                    font=("Calibri", "18", "bold"))
         self.decisao.grid(row=3, column=1, sticky=S, pady=5)
         self.decisaoY = Button(self.layout,
                     text="SIM",
@@ -1276,13 +1276,13 @@ class Application:
     def mapear(self):
         self.final = Label(self.layout,
                     background="#c9e3d5",
-                    text='MAPEAMENTO REALIZADO!\nAs alterações realizadas foram adicionados ao documento Resultado.xls, verifique!', 
+                    text='MAPEAMENTO REALIZADO!\nAs alterações realizadas foram adicionados ao documento Resultado.xls, obrigado!', 
                     font=("Calibri", "16", "bold"))
         self.final.grid(row=2, column=1, sticky=S, pady=5)
 
         self.credito = Label(self.layout,
                     background="#c9e3d5",
-                    text='CRÉDITOS:\nAs alterações realizadas foram adicionados ao documento Resultado.xls, verifique!', 
+                    text='Autores:\nFlávio Rafael Trindade Moura\nAdriano Madureira dos Santos\nMarcos Cesar da Rocha Seruffo\nLPO - Laboratório de Pesquisa Operacional', 
                     font=("Calibri", "16", "bold"))
         self.credito.grid(row=3, column=1, sticky=S, pady=15)
 
