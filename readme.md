@@ -8,7 +8,7 @@
 
   Estrutura
   
-<h3>A aplicação foi desenvolvida utilizando a biblioteca tkinter, a fim de produzir um executável para distribuição. Devido a isso, todo o código está contido em um único arquivo (link), tal que está dividido em:<BR/>
+<h3>A aplicação foi desenvolvida utilizando a biblioteca tkinter, a fim de produzir um executável para distribuição. Devido a isso, todo o código está contido no arquivo <a href="https://github.com/Horusprg/qualis-LPO/blob/main/GeradorQualis.py">GeradorQualis.py</a>, tal que está dividido em:<BR/>
 <BR/>
   
 1. Definição da lista de referência para as correções
