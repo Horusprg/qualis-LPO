@@ -11,7 +11,7 @@
 </br></br>
 Para fazer o download da ferramenta, acesse o link:
 </br></br>
-<img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Windows_logo_-_2012_%28dark_blue%29.svg" width="15" height="15"/> <a href="https://drive.google.com/file/d/1WBQQsPLNO-_1p6LZZaRhtjNR8l_1E-PY/view?usp=sharing"> Gerador Qualis - Windows</a>
+<a href="https://drive.google.com/file/d/1WBQQsPLNO-_1p6LZZaRhtjNR8l_1E-PY/view?usp=sharing"> Gerador Qualis - <img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Windows_logo_-_2012_%28dark_blue%29.svg" width="15" height="15"/> Windows</a>
 <h1 align="center"></>
 
   Estrutura
