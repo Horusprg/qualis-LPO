@@ -92,7 +92,7 @@ def center(win):
 
 curriculos = []
 
-anos_validos = {'2021','2020','2019','2018','2017','2016'}
+anos_validos = {'2022','2021','2020','2019','2018','2017','2016'}
 
 
 #Aplicação usando tkinter
@@ -321,22 +321,54 @@ class Application:
             periodico = ''
 
             #Contadores de Conferências por ano
+            cont16c = 0
             cont17c = 0
             cont18c = 0
             cont19c = 0
             cont20c = 0
+            cont21c = 0
+            cont22c = 0
 
             #Contadores de Periódicos por ano
+            cont16p = 0
             cont17p = 0
             cont18p = 0
             cont19p = 0
             cont20p = 0
+            cont21p = 0
+            cont22p = 0
+            
 
             #Contadores de Nota por ano
+            nota16 = 0
             nota17 = 0
             nota18 = 0
             nota19 = 0
             nota20 = 0
+            nota21 = 0
+            nota22 = 0
+            
+            #Contadores de estratos por conferência em 2016
+            c16A1 = 0
+            c16A2 = 0
+            c16A3 = 0
+            c16A4 = 0
+            c16B1 = 0
+            c16B2 = 0
+            c16B3 = 0
+            c16B4 = 0
+            c16C = 0
+
+            #Contadores de estratos por periódico em 2016
+            p16A1 = 0
+            p16A2 = 0
+            p16A3 = 0
+            p16A4 = 0
+            p16B1 = 0
+            p16B2 = 0
+            p16B3 = 0
+            p16B4 = 0
+            p16C = 0
 
             #Contadores de estratos por conferência em 2017
             c17A1 = 0
@@ -425,6 +457,50 @@ class Application:
             p20B3 = 0
             p20B4 = 0
             p20C = 0
+
+            #Contadores de estratos por conferência em 2021
+            c21A1 = 0
+            c21A2 = 0
+            c21A3 = 0
+            c21A4 = 0
+            c21B1 = 0
+            c21B2 = 0
+            c21B3 = 0
+            c21B4 = 0
+            c21C = 0
+
+            #Contadores de estratos por periódico em 2021
+            p21A1 = 0
+            p21A2 = 0
+            p21A3 = 0
+            p21A4 = 0
+            p21B1 = 0
+            p21B2 = 0
+            p21B3 = 0
+            p21B4 = 0
+            p21C = 0
+            
+            #Contadores de estratos por conferência em 2022
+            c22A1 = 0
+            c22A2 = 0
+            c22A3 = 0
+            c22A4 = 0
+            c22B1 = 0
+            c22B2 = 0
+            c22B3 = 0
+            c22B4 = 0
+            c22C = 0
+
+            #Contadores de estratos por periódico em 2022
+            p22A1 = 0
+            p22A2 = 0
+            p22A3 = 0
+            p22A4 = 0
+            p22B1 = 0
+            p22B2 = 0
+            p22B3 = 0
+            p22B4 = 0
+            p22C = 0
             
             #Imprimir nome do professor
             for t in root.iter('DADOS-GERAIS'):                    
@@ -683,7 +759,29 @@ class Application:
                     if (nota != 'SEM QUALIS'):                  #Contador de estratos das conferências
                         totalNota = totalNota + nota
                     if (estratos != '-'):
-                        if (resultado[1] == '2017'):
+                        if (resultado[1] == '2016'):
+                            cont16c = cont16c + 1
+                            if (nota != 'SEM QUALIS'):          #somador de notas de 2016
+                                nota16 = nota16 + nota
+                            if (estratos == 'A1'):
+                                c16A1 = c16A1 + 1
+                            elif (estratos == 'A2'):
+                                c16A2 = c16A2 + 1
+                            elif (estratos == 'A3'):
+                                c16A3 = c16A3 + 1
+                            elif (estratos == 'A4'):
+                                c16A4 = c16A4 + 1
+                            elif (estratos == 'B1'):
+                                c16B1 = c16B1 + 1
+                            elif (estratos == 'B2'):
+                                c16B2 = c16B2 + 1
+                            elif (estratos == 'B3'):
+                                c16B3 = c16B3 + 1
+                            elif (estratos == 'B4'):
+                                c16B4 = c16B4 + 1
+                            elif (estratos == 'C'):
+                                c16C = c16C + 1
+                        elif (resultado[1] == '2017'):
                             cont17c = cont17c + 1
                             if (nota != 'SEM QUALIS'):          #somador de notas de 2017
                                 nota17 = nota17 + nota
@@ -771,6 +869,50 @@ class Application:
                                 c20B4 = c20B4 + 1
                             elif (estratos == 'C'):
                                 c20C = c20C + 1
+                        elif (resultado[1] == '2021'):
+                            cont21c = cont21c + 1
+                            if (nota != 'SEM QUALIS'):          #somador de notas de 2021
+                                nota21 = nota21 + nota
+                            if (estratos == 'A1'):
+                                c21A1 = c21A1 + 1
+                            elif (estratos == 'A2'):
+                                c21A2 = c21A2 + 1
+                            elif (estratos == 'A3'):
+                                c21A3 = c21A3 + 1
+                            elif (estratos == 'A4'):
+                                c21A4 = c21A4 + 1
+                            elif (estratos == 'B1'):
+                                c21B1 = c21B1 + 1
+                            elif (estratos == 'B2'):
+                                c21B2 = c21B2 + 1
+                            elif (estratos == 'B3'):
+                                c21B3 = c21B3 + 1
+                            elif (estratos == 'B4'):
+                                c21B4 = c21B4 + 1
+                            elif (estratos == 'C'):
+                                c21C = c21C + 1
+                        elif (resultado[1] == '2022'):
+                            cont22c = cont22c + 1
+                            if (nota != 'SEM QUALIS'):          #somador de notas de 2022
+                                nota22 = nota22 + nota
+                            if (estratos == 'A1'):
+                                c22A1 = c22A1 + 1
+                            elif (estratos == 'A2'):
+                                c22A2 = c22A2 + 1
+                            elif (estratos == 'A3'):
+                                c22A3 = c22A3 + 1
+                            elif (estratos == 'A4'):
+                                c22A4 = c22A4 + 1
+                            elif (estratos == 'B1'):
+                                c22B1 = c22B1 + 1
+                            elif (estratos == 'B2'):
+                                c22B2 = c22B2 + 1
+                            elif (estratos == 'B3'):
+                                c22B3 = c22B3 + 1
+                            elif (estratos == 'B4'):
+                                c22B4 = c22B4 + 1
+                            elif (estratos == 'C'):
+                                c22C = c22C + 1
                         
                     x = x + 1
         
@@ -932,7 +1074,29 @@ class Application:
                     if (nota != 'SEM QUALIS'):            #Contador de estratos dos periódicos
                         totalNota = totalNota + nota
                     if (estratos2 != '-'):
-                        if (resultado2[1] == '2017'):
+                        if (resultado2[1] == '2016'):
+                            cont16p = cont16p + 1
+                            if (nota != 'SEM QUALIS'):          #somador de notas de 2016
+                                nota16 = nota16 + nota
+                            if (estratos2 == 'A1'):
+                                p16A1 = p16A1 + 1
+                            elif (estratos2 == 'A2'):
+                                p16A2 = p16A2 + 1
+                            elif (estratos2 == 'A3'):
+                                p16A3 = p16A3 + 1
+                            elif (estratos2 == 'A4'):
+                                p16A4 = p16A4 + 1
+                            elif (estratos2 == 'B1'):
+                                p16B1 = p16B1 + 1
+                            elif (estratos2 == 'B2'):
+                                p16B2 = p16B2 + 1
+                            elif (estratos2 == 'B3'):
+                                p16B3 = p16B3 + 1
+                            elif (estratos2 == 'B4'):
+                                p16B4 = p16B4 + 1
+                            elif (estratos2 == 'C'):
+                                p16C = p16C + 1
+                        elif (resultado2[1] == '2017'):
                             cont17p = cont17p + 1
                             if (nota != 'SEM QUALIS'):          #somador de notas de 2017
                                 nota17 = nota17 + nota
@@ -1020,6 +1184,50 @@ class Application:
                                 p20B4 = p20B4 + 1
                             elif (estratos2 == 'C'):
                                 p20C = p20C + 1
+                        elif (resultado2[1] == '2021'):
+                            cont21p = cont21p + 1
+                            if (nota != 'SEM QUALIS'):          #somador de notas de 2021
+                                nota21 = nota21 + nota
+                            if (estratos2 == 'A1'):
+                                p21A1 = p21A1 + 1
+                            elif (estratos2 == 'A2'):
+                                p21A2 = p21A2 + 1
+                            elif (estratos2 == 'A3'):
+                                p21A3 = p21A3 + 1
+                            elif (estratos2 == 'A4'):
+                                p21A4 = p21A4 + 1
+                            elif (estratos2 == 'B1'):
+                                p21B1 = p21B1 + 1
+                            elif (estratos2 == 'B2'):
+                                p21B2 = p21B2 + 1
+                            elif (estratos2 == 'B3'):
+                                p21B3 = p21B3 + 1
+                            elif (estratos2 == 'B4'):
+                                p21B4 = p21B4 + 1
+                            elif (estratos2 == 'C'):
+                                p21C = p21C + 1
+                        elif (resultado2[1] == '2022'):
+                            cont22p = cont22p + 1
+                            if (nota != 'SEM QUALIS'):          #somador de notas de 2022
+                                nota22 = nota22 + nota
+                            if (estratos2 == 'A1'):
+                                p22A1 = p22A1 + 1
+                            elif (estratos2 == 'A2'):
+                                p22A2 = p22A2 + 1
+                            elif (estratos2 == 'A3'):
+                                p22A3 = p22A3 + 1
+                            elif (estratos2 == 'A4'):
+                                p22A4 = p22A4 + 1
+                            elif (estratos2 == 'B1'):
+                                p22B1 = p22B1 + 1
+                            elif (estratos2 == 'B2'):
+                                p22B2 = p22B2 + 1
+                            elif (estratos2 == 'B3'):
+                                p22B3 = p22B3 + 1
+                            elif (estratos2 == 'B4'):
+                                p22B4 = p22B4 + 1
+                            elif (estratos2 == 'C'):
+                                p22C = p22C + 1
                         
                     x = x + 1
             self.worksheet.write(x, 7, 'Nota Total')
@@ -1136,13 +1344,18 @@ class Application:
             lista.append(listaBase)
             totalNotas2 = 0
             somaNotas2 = 0
+            nota162 = 0
             nota172 = 0
             nota182 = 0
             nota192 = 0
             nota202 = 0
+            nota212 = 0
+            nota222 = 0
             nt = 1
             for row_num in range(self.worksheet.nrows):     #Varre linha por linha do NotasExtraídas
                 w_sheet = wb.get_sheet(0)
+                
+                w_sheet.write(0, 9, "Currículos")
                 if row_num == 0:
                     continue
                 row = self.worksheet.row_values(row_num)
@@ -1158,7 +1371,9 @@ class Application:
                         #print (cont)
                     
                     totalNotas2 = totalNotas2 + novaNota2
-                    if (row[1] == '2017'):
+                    if (row[1] == '2016'):
+                        nota162 = nota162 + novaNota2
+                    elif (row[1] == '2017'):
                         nota172 = nota172 + novaNota2
                     elif (row[1] == '2018'):
                         nota182 = nota182 + novaNota2
@@ -1166,6 +1381,10 @@ class Application:
                         nota192 = nota192 + novaNota2
                     elif (row[1] == '2020'):
                         nota202 = nota202 + novaNota2
+                    elif (row[1] == '2021'):
+                        nota212 = nota212 + novaNota2
+                    elif (row[1] == '2022'):
+                        nota222 = nota222 + novaNota2
                     
                 if (row[7] == 'Nota Total'):
                     w_sheet.write(row_num, 8, totalNotas2)
@@ -1176,10 +1395,13 @@ class Application:
                     somaNotas2 = somaNotas2 + totalNotas2
                     w_sheet.write(nt, yi, totalNotas2)
                     totalNotas2 = 0
+                    nota162 = 0
                     nota172 = 0
                     nota182 = 0
                     nota192 = 0
                     nota202 = 0
+                    nota212 = 0
+                    nota222 = 0
                     nt = nt + 1
 
             w_sheet = wb.get_sheet(1)
@@ -1202,11 +1424,7 @@ class Application:
                         text="SIM",
                         font=("Calibri", "12"),
                         width=8,
-                        command= lambda: [self.mapear(),
-                                self.map.destroy(),
-                                self.mapY.destroy(),
-                                self.mapN.destroy(),
-                                self.msgf.destroy()])
+                        command= lambda: [self.mapear()])
 
             self.mapY.grid(row=5, column=1, sticky=W, pady=15, padx=180)
             self.mapN = Button(self.layout,
@@ -1274,6 +1492,10 @@ class Application:
         center(self.layout)
     
     def mapear(self):
+        self.map.destroy()
+        self.mapY.destroy()
+        self.mapN.destroy()
+        self.msgf.destroy()
         self.final = Label(self.layout,
                     background="#c9e3d5",
                     text='MAPEAMENTO REALIZADO!\nAs alterações realizadas foram adicionados ao documento Resultado.xls, obrigado!', 
