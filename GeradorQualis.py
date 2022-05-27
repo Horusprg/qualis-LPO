@@ -110,15 +110,16 @@ class Application:
         notas = ['A1','A2','A3','A4','B1','B2','B3','B4','C']
         self.workbook = xlwt.Workbook()
         self.worksheet = self.workbook.add_sheet(u'Planilha_1')  #Cria aba Planilha_1
-        self.worksheet.write(0, 0, u'Documento')
-        self.worksheet.write(0, 1, u'Ano')
-        self.worksheet.write(0, 2, u'Titulo')
-        self.worksheet.write(0, 3, u'DOI')
-        self.worksheet.write(0, 4, u'Sigla')
-        self.worksheet.write(0, 5, u'Titulo Periodico ou Revista')
-        self.worksheet.write(0, 6, u'Autores')
-        self.worksheet.write(0, 7, u'Estrato Novo')
-        self.worksheet.write(0, 8, u'Notas')
+        self.worksheet.write(0, 0, u'Autor')
+        self.worksheet.write(0, 1, u'Documento')
+        self.worksheet.write(0, 2, u'Ano')
+        self.worksheet.write(0, 3, u'Titulo')
+        self.worksheet.write(0, 4, u'DOI')
+        self.worksheet.write(0, 5, u'Sigla')
+        self.worksheet.write(0, 6, u'Titulo Periodico ou Revista')
+        self.worksheet.write(0, 7, u'Autores')
+        self.worksheet.write(0, 8, u'Estrato Novo')
+        self.worksheet.write(0, 9, u'Notas')
         self.worksheet._cell_overwrite_ok = True
 
         #Cria aba Planilha_2
@@ -510,7 +511,6 @@ class Application:
                             text=f'Analisando publicações semelhantes de {nomeProf}\n{n+1} de {len(curriculos)}\n\nAGUARDE', 
                             font=("Calibri", "16"))
                 self.msg6.grid(row=2, column=1, sticky=S, pady=30)
-                x = x + 2
                 self.worksheet.write(x, 0, nomeProf)
 
             x = x + 1
@@ -705,35 +705,35 @@ class Application:
                                     sigla = row[0]
                                     estratos = row[8]
                                     break
-                    
-                    self.worksheet.write(x, 0, resultado[0])
-                    self.worksheet.write(x, 1, resultado[1])
-                    self.worksheet.write(x, 4, sigla)
+                    self.worksheet.write(x, 0, nomeProf)
+                    self.worksheet.write(x, 1, resultado[0])
+                    self.worksheet.write(x, 2, resultado[1])
+                    self.worksheet.write(x, 5, sigla)
                     if ('COMPLETO' in tituloAnais):                          #Correção de tabela, elimina o "COMPLETO" do lugar errado
-                        self.worksheet.write(x, 2, resultado[2] + resultado [3] + resultado[4])
-                        self.worksheet.write(x, 3, resultado[5])
-                        self.worksheet.write(x, 5, resultado[8] + ' / ' + autor)
-                        self.worksheet.write(x, 6, resultado[9])
+                        self.worksheet.write(x, 3, resultado[2] + resultado [3] + resultado[4])
+                        self.worksheet.write(x, 4, resultado[5])
+                        self.worksheet.write(x, 6, resultado[8] + ' / ' + autor)
+                        self.worksheet.write(x, 7, resultado[9])
                     elif ('COMPLETO' in nomeEvento):
-                        self.worksheet.write(x, 2, resultado[2] + resultado[3])
-                        self.worksheet.write(x, 3, resultado[4])
-                        self.worksheet.write(x, 5, autor + ' / ' + resultado[6])
-                        self.worksheet.write(x, 6, resultado[8])
+                        self.worksheet.write(x, 3, resultado[2] + resultado[3])
+                        self.worksheet.write(x, 4, resultado[4])
+                        self.worksheet.write(x, 6, autor + ' / ' + resultado[6])
+                        self.worksheet.write(x, 7, resultado[8])
                     else:
-                        self.worksheet.write(x, 2, resultado[2])
+                        self.worksheet.write(x, 3, resultado[2])
                         if (resultado[3] != ''):
-                            self.worksheet.write(x, 3, resultado[3])
+                            self.worksheet.write(x, 4, resultado[3])
                         else:
-                            self.worksheet.write(x, 3, '-')
-                        self.worksheet.write(x, 5, tituloAnais + ' / ' + nomeEvento)
+                            self.worksheet.write(x, 4, '-')
+                        self.worksheet.write(x, 6, tituloAnais + ' / ' + nomeEvento)
                         if (len(resultado) > 8):
                             if (nomeProf in str(autor).upper()):
-                                self.worksheet.write(x, 6, autor)
+                                self.worksheet.write(x, 7, autor)
                             elif (nomeProf in str(resultado[8]).upper()):
-                                self.worksheet.write(x, 6, resultado[8])
+                                self.worksheet.write(x, 7, resultado[8])
                         else:
-                            self.worksheet.write(x, 6, autor)
-                    self.worksheet.write(x, 7, estratos)
+                            self.worksheet.write(x, 7, autor)
+                    self.worksheet.write(x, 8, estratos)
                     
                     nota = 'SEM QUALIS'             #Calcula a nota do estrato
                     if (estratos == 'A1'):
@@ -754,7 +754,7 @@ class Application:
                         nota = B4c
                     elif (estratos == 'C'):
                         nota = Cc
-                    self.worksheet.write(x, 8, nota)
+                    self.worksheet.write(x, 9, nota)
                     
                     if (nota != 'SEM QUALIS'):                  #Contador de estratos das conferências
                         totalNota = totalNota + nota
@@ -1031,24 +1031,24 @@ class Application:
                             else:
                                 estratos2 = '-'
                     
-                    
-                    self.worksheet.write(x, 0, resultado2[0])
-                    self.worksheet.write(x, 1, resultado2[1])
-                    self.worksheet.write(x, 4, '-')
+                    self.worksheet.write(x, 0, nomeProf)
+                    self.worksheet.write(x, 1, resultado2[0])
+                    self.worksheet.write(x, 2, resultado2[1])
+                    self.worksheet.write(x, 5, '-')
                     if ('COMPLETO' in resultado2[5]):                        #Correção de tabela, elimina o "COMPLETO" do lugar errado
-                        self.worksheet.write(x, 2, resultado2[2] + resultado2[3])
-                        self.worksheet.write(x, 3, resultado2[4])
-                        self.worksheet.write(x, 5, resultado2[6])
-                        self.worksheet.write(x, 6, resultado2[7])
-                    else:
-                        self.worksheet.write(x, 2, resultado2[2])
-                        if (resultado2[3] != ''):
-                            self.worksheet.write(x, 3, resultado2[3])
-                        else:
-                            self.worksheet.write(x, 3, '-')
-                        self.worksheet.write(x, 5, resultado2[5])
+                        self.worksheet.write(x, 3, resultado2[2] + resultado2[3])
+                        self.worksheet.write(x, 4, resultado2[4])
                         self.worksheet.write(x, 6, resultado2[6])
-                    self.worksheet.write(x, 7, estratos2)
+                        self.worksheet.write(x, 7, resultado2[7])
+                    else:
+                        self.worksheet.write(x, 3, resultado2[2])
+                        if (resultado2[3] != ''):
+                            self.worksheet.write(x, 4, resultado2[3])
+                        else:
+                            self.worksheet.write(x, 4, '-')
+                        self.worksheet.write(x, 6, resultado2[5])
+                        self.worksheet.write(x, 7, resultado2[6])
+                    self.worksheet.write(x, 8, estratos2)
                     
                     nota = 'SEM QUALIS'               #Calcula nota do estrato
                     if (estratos2 == 'A1'):
@@ -1230,8 +1230,8 @@ class Application:
                                 p22C = p22C + 1
                         
                     x = x + 1
-            self.worksheet.write(x, 7, 'Nota Total')
-            self.worksheet.write(x, 8, totalNota)
+            self.worksheet.write(x, 11, 'Nota Total')
+            self.worksheet.write(x, 12, totalNota)
             contTotalc = cont17c
             contTotalp = cont17p
             totalNota = nota17
@@ -1360,34 +1360,34 @@ class Application:
                     continue
                 row = self.worksheet.row_values(row_num)
 
-                if (row[8] != 'SEM QUALIS'  and row[1] != ''):
+                if (row[9] != 'SEM QUALIS'  and row[2] != ''):
                     novaNota2 = row[8]
-                    cont = (str(lista).upper()).count(str(row[2]).upper())
+                    cont = (str(lista).upper()).count(str(row[3]).upper())
                     if (cont > 1):
-                        novaNota2 = row[8]/cont
+                        novaNota2 = row[9]/cont
                         w_sheet.write(row_num, 8, novaNota2)
                         #print (novaNota2)
                         w_sheet.write(row_num, 9, cont)
                         #print (cont)
                     
                     totalNotas2 = totalNotas2 + novaNota2
-                    if (row[1] == '2016'):
+                    if (row[2] == '2016'):
                         nota162 = nota162 + novaNota2
-                    elif (row[1] == '2017'):
+                    elif (row[2] == '2017'):
                         nota172 = nota172 + novaNota2
-                    elif (row[1] == '2018'):
+                    elif (row[2] == '2018'):
                         nota182 = nota182 + novaNota2
-                    elif (row[1] == '2019'):
+                    elif (row[2] == '2019'):
                         nota192 = nota192 + novaNota2
-                    elif (row[1] == '2020'):
+                    elif (row[2] == '2020'):
                         nota202 = nota202 + novaNota2
-                    elif (row[1] == '2021'):
+                    elif (row[2] == '2021'):
                         nota212 = nota212 + novaNota2
-                    elif (row[1] == '2022'):
+                    elif (row[2] == '2022'):
                         nota222 = nota222 + novaNota2
                     
-                if (row[7] == 'Nota Total'):
-                    w_sheet.write(row_num, 8, totalNotas2)
+                if (row[11] == 'Nota Total'):
+                    w_sheet.write(row_num, 12, totalNotas2)
                     
                     w_sheet = wb.get_sheet(1)
                     totalNotas2 = nota172
@@ -1424,7 +1424,7 @@ class Application:
                         text="SIM",
                         font=("Calibri", "12"),
                         width=8,
-                        command= lambda: [self.mapear()])
+                        command= mapear)
 
             self.mapY.grid(row=5, column=1, sticky=W, pady=15, padx=180)
             self.mapN = Button(self.layout,
@@ -1453,11 +1453,7 @@ class Application:
                         text="SIM",
                         font=("Calibri", "12"),
                         width=8,
-                        command= lambda: [self.mapear(),
-                                self.map.destroy(),
-                                self.mapY.destroy(),
-                                self.mapN.destroy(),
-                                self.msgf.destroy()])
+                        command= mapear)
 
             self.mapY.grid(row=5, column=1, sticky=W, pady=15, padx=180)
             self.mapN = Button(self.layout,
@@ -1491,46 +1487,45 @@ class Application:
         #Centrar o ecrã
         center(self.layout)
     
-    def mapear(self):
-        self.map.destroy()
-        self.mapY.destroy()
-        self.mapN.destroy()
-        self.msgf.destroy()
-        self.final = Label(self.layout,
-                    background="#c9e3d5",
-                    text='MAPEAMENTO REALIZADO!\nAs alterações realizadas foram adicionados ao documento Resultado.xls, obrigado!', 
-                    font=("Calibri", "16", "bold"))
-        self.final.grid(row=2, column=1, sticky=S, pady=5)
+        def mapear():
+            self.map.destroy()
+            self.mapY.destroy()
+            self.mapN.destroy()
+            self.msgf.destroy()
+            self.final = Label(self.layout,
+                        background="#c9e3d5",
+                        text='MAPEAMENTO REALIZADO!\nAs alterações realizadas foram adicionados ao documento Resultado.xls, obrigado!', 
+                        font=("Calibri", "16", "bold"))
+            self.final.grid(row=2, column=1, sticky=S, pady=5)
 
-        self.credito = Label(self.layout,
-                    background="#c9e3d5",
-                    text='Autores:\nFlávio Rafael Trindade Moura\nAdriano Madureira dos Santos\nMarcos Cesar da Rocha Seruffo\nLPO - Laboratório de Pesquisa Operacional', 
-                    font=("Calibri", "16", "bold"))
-        self.credito.grid(row=3, column=1, sticky=S, pady=15)
+            self.credito = Label(self.layout,
+                        background="#c9e3d5",
+                        text='Autores:\nFlávio Rafael Trindade Moura\nAdriano Madureira dos Santos\nMarcos Cesar da Rocha Seruffo\nLPO - Laboratório de Pesquisa Operacional', 
+                        font=("Calibri", "16", "bold"))
+            self.credito.grid(row=3, column=1, sticky=S, pady=15)
 
-        df = pd.read_excel(self.file)
-        df2 = pd.read_csv('qualis.csv')
-        R = list(Counter(df['Titulo Periodico ou Revista']))[1:]
+            df = pd.read_excel(self.file)
+            df2 = pd.read_csv('qualis.csv')
+            R = list(Counter(df['Titulo Periodico ou Revista']))[1:]
 
-        dic = {}
+            dic = {}
 
-        for revista in R:
-            idxrevista = df2[df2['Título'] == revista.upper()].index
-            
-            if len(idxrevista) > 0:
-                estratoantigo = df2.loc[idxrevista]['Estrato'][idxrevista[0]]
-            else:
-                estratoantigo = np.nan
+            for revista in R:
+                idxrevista = df2[df2['Título'] == revista.upper()].index
                 
-            dic[revista] = estratoantigo
+                if len(idxrevista) > 0:
+                    estratoantigo = df2.loc[idxrevista]['Estrato'][idxrevista[0]]
+                else:
+                    estratoantigo = np.nan
+                    
+                dic[revista] = estratoantigo
 
-        for revista in dic:
-            idxs = df[df["Titulo Periodico ou Revista"] == revista].index
-            df.loc[idxs, "Estrato Antigo"] = dic[revista]
-
-        df.to_excel(self.file)
-                                            
-        #Centrar o ecrã
-        center(self.layout)
+            for revista in dic:
+                idxs = df[df["Titulo Periodico ou Revista"] == revista].index
+                df.loc[idxs, "Estrato Antigo"] = dic[revista]
+            df.to_excel(self.file)
+                                                
+            #Centrar o ecrã
+            center(self.layout)
 
 Application()
