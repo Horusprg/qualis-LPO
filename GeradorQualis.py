@@ -119,13 +119,12 @@ class Application:
         self.worksheet.write(0, 7, u'Autores')
         self.worksheet.write(0, 8, u'Estrato Novo')
         self.worksheet.write(0, 9, u'Notas')
+        self.worksheet.write(0, 10, u'Estrato Antigo')
         self.worksheet._cell_overwrite_ok = True
 
         #Cria aba Planilha_2
         self.worksheet3 = self.workbook.add_sheet(u'Planilha_2')
         self.worksheet3.write(0, self.col, u'Professor')
-        self.col = self.col + 1
-        self.worksheet3.write(0, self.col, u'2017')
         self.col = self.col + 1
         self.worksheet3.write(0, self.col, u'Conferência')
         self.col = self.col + 1
@@ -1067,7 +1066,7 @@ class Application:
                         nota = B4p
                     elif (estratos2 == 'C'):
                         nota = Cp
-                    self.worksheet.write(x, 8, nota)
+                    self.worksheet.write(x, 9, nota)
                     
                     if (nota != 'SEM QUALIS'):            #Contador de estratos dos periódicos
                         totalNota = totalNota + nota
@@ -1317,6 +1316,50 @@ class Application:
         self.workbook.save(self.file)#salva em arquivo xls
         ###############################################################
         #
+        
+        def mapear():
+            self.map.destroy()
+            self.mapY.destroy()
+            self.mapN.destroy()
+            self.msgf.destroy()
+            self.final = Label(self.layout,
+                        background="#c9e3d5",
+                        text='MAPEAMENTO REALIZADO!\nAs alterações realizadas foram adicionados ao documento Resultado.xls, obrigado!', 
+                        font=("Calibri", "16", "bold"))
+            self.final.grid(row=2, column=1, sticky=S, pady=5)
+
+            self.credito = Label(self.layout,
+                        background="#c9e3d5",
+                        text='Autores:\nFlávio Rafael Trindade Moura\nAdriano Madureira dos Santos\nMarcos Cesar da Rocha Seruffo\nLPO - Laboratório de Pesquisa Operacional', 
+                        font=("Calibri", "16", "bold"))
+            self.credito.grid(row=3, column=1, sticky=S, pady=15)
+
+            rb = xlrd.open_workbook(self.file)        #Ler arquivo para fazer cópia
+            wb = copy(rb)
+            w_sheet = wb.get_sheet(0)
+            df = pd.read_excel(self.file)
+            df2 = pd.read_csv('qualis.csv')
+            R = list(Counter(df['Titulo Periodico ou Revista']))[1:]
+            w_sheet.write(0, 11, "Estrato Antigo")
+
+            dic = {}
+
+
+            for revista in R:
+                idxrevista = df2[df2['Título'] == revista.upper()].index
+                
+                if len(idxrevista) > 0:
+                    estratoantigo = df2.loc[idxrevista]['Estrato'][idxrevista[0]]
+                else:
+                    estratoantigo = np.nan
+                    
+                dic[revista] = estratoantigo
+            for revista in dic:
+                idxs = df[df["Titulo Periodico ou Revista"] == revista].index
+                w_sheet.write(idxs, 11, dic[revista])
+                                                
+            #Centrar o ecrã
+            center(self.layout)
         #############################INTEGRAÇÃO DO PROGRAMA DE CORREÇÃO
         #
         ###############################################################
@@ -1350,22 +1393,22 @@ class Application:
             nota212 = 0
             nota222 = 0
             nt = 1
-            for row_num in range(self.worksheet.nrows):     #Varre linha por linha do NotasExtraídas
+            for row_num in range(1, self.worksheet.nrows):     #Varre linha por linha do NotasExtraídas
                 w_sheet = wb.get_sheet(0)
                 
-                w_sheet.write(0, 9, "Currículos")
+                w_sheet.write(0, 10, "Currículos")
                 if row_num == 0:
                     continue
                 row = self.worksheet.row_values(row_num)
 
-                if (row[9] != 'SEM QUALIS'  and row[2] != ''):
-                    novaNota2 = row[8]
+                if (row[9] != 'SEM QUALIS'  and row[3] != '' and row[9] != ''):
+                    novaNota2 = float(row[9])
                     cont = (str(lista).upper()).count(str(row[3]).upper())
                     if (cont > 1):
-                        novaNota2 = row[9]/cont
-                        w_sheet.write(row_num, 8, novaNota2)
+                        novaNota2 = float(row[9]/cont)
+                        w_sheet.write(row_num, 9, novaNota2)
                         #print (novaNota2)
-                        w_sheet.write(row_num, 9, cont)
+                        w_sheet.write(row_num, 10, cont)
                         #print (cont)
                     
                     totalNotas2 = totalNotas2 + novaNota2
@@ -1485,45 +1528,5 @@ class Application:
         #Centrar o ecrã
         center(self.layout)
     
-        def mapear(self):
-            self.map.destroy()
-            self.mapY.destroy()
-            self.mapN.destroy()
-            self.msgf.destroy()
-            self.final = Label(self.layout,
-                        background="#c9e3d5",
-                        text='MAPEAMENTO REALIZADO!\nAs alterações realizadas foram adicionados ao documento Resultado.xls, obrigado!', 
-                        font=("Calibri", "16", "bold"))
-            self.final.grid(row=2, column=1, sticky=S, pady=5)
-
-            self.credito = Label(self.layout,
-                        background="#c9e3d5",
-                        text='Autores:\nFlávio Rafael Trindade Moura\nAdriano Madureira dos Santos\nMarcos Cesar da Rocha Seruffo\nLPO - Laboratório de Pesquisa Operacional', 
-                        font=("Calibri", "16", "bold"))
-            self.credito.grid(row=3, column=1, sticky=S, pady=15)
-
-            df = pd.read_excel(self.file)
-            df2 = pd.read_csv('qualis.csv')
-            R = list(Counter(df['Titulo Periodico ou Revista']))[1:]
-            self.worksheet.write(0, 10, "Estrato Antigo")
-
-            dic = {}
-
-
-            for revista in R:
-                idxrevista = df2[df2['Título'] == revista.upper()].index
-                
-                if len(idxrevista) > 0:
-                    estratoantigo = df2.loc[idxrevista]['Estrato'][idxrevista[0]]
-                else:
-                    estratoantigo = np.nan
-                    
-                dic[revista] = estratoantigo
-            for revista in dic:
-                idxs = df[df["Titulo Periodico ou Revista"] == revista].index
-                self.worksheet.write(idxs, 10, dic[revista])
-                                                
-            #Centrar o ecrã
-            center(self.layout)
 
 Application()
