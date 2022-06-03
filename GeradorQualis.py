@@ -1,4 +1,3 @@
-from turtle import width
 from matplotlib.pyplot import text
 import xlwt
 import xlrd
@@ -303,7 +302,7 @@ class Application:
         #Centrar o ecrã
         center(self.layout)
 		
-        x = 0
+        x = 1
         somaNotas = 0
 
         for n in range(0, len(curriculos)):                        #Laço para ler currículos
@@ -511,7 +510,6 @@ class Application:
                             text=f'Analisando publicações semelhantes de {nomeProf}\n{n+1} de {len(curriculos)}\n\nAGUARDE', 
                             font=("Calibri", "16"))
                 self.msg6.grid(row=2, column=1, sticky=S, pady=30)
-                self.worksheet.write(x, 0, nomeProf)
 
             x = x + 1
 
@@ -1232,9 +1230,9 @@ class Application:
                     x = x + 1
             self.worksheet.write(x, 11, 'Nota Total')
             self.worksheet.write(x, 12, totalNota)
-            contTotalc = cont17c
-            contTotalp = cont17p
-            totalNota = nota17
+            contTotalc = cont16c + cont17c + cont18c + cont19c + cont20c + cont21c + cont22c
+            contTotalp = cont16p + cont17p + cont18p + cont19p + cont20p + cont21p + cont22p
+            totalNota = nota16 + nota17 + nota18 + nota19 + nota20 + nota21 + nota22
                 
             #Planilha_2
             yi = 0
@@ -1242,45 +1240,45 @@ class Application:
                 self.worksheet3.write(xi, yi, nomeProf)
                 yi = yi + 2
             
-                self.worksheet3.write(xi, yi, cont17c)
+                self.worksheet3.write(xi, yi, cont16c + cont17c + cont18c + cont19c + cont20c + cont21c + cont22c)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, c17A1)
+                self.worksheet3.write(xi, yi, c16A1 + c17A1 + c18A1 + c19A1 + c20A1 + c21A1 + c22A1)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, c17A2)
+                self.worksheet3.write(xi, yi, c16A2 + c17A2 + c18A2 + c19A2 + c20A2 + c21A2 + c22A2)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, c17A3)
+                self.worksheet3.write(xi, yi, c16A3 + c17A3 + c18A3 + c19A3 + c20A3 + c21A3 + c22A3)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, c17A4)
+                self.worksheet3.write(xi, yi, c16A4 + c17A4 + c18A4 + c19A4 + c20A4 + c21A4 + c22A4)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, c17B1)
+                self.worksheet3.write(xi, yi, c16B1 + c17B1 + c18B1 + c19B1 + c20B1 + c21B1 + c22B1)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, c17B2)
+                self.worksheet3.write(xi, yi, c16B2 + c17B2 + c18B2 + c19B2 + c20B2 + c21B2 + c22B2)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, c17B3)
+                self.worksheet3.write(xi, yi, c16B3 + c17B3 + c18B3 + c19B3 + c20B3 + c21B3 + c22B3)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, c17B4)
+                self.worksheet3.write(xi, yi, c16B4 + c17B4 + c18B4 + c19B4 + c20B4 + c21B4 + c22B4)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, c17C)
+                self.worksheet3.write(xi, yi, c16C + c17C + c18C + c19C + c20C + c21C + c22C)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, cont17p)
+                self.worksheet3.write(xi, yi, cont16p + cont17p + cont18p + cont19p + cont20p + cont21p + cont22p)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, p17A1)
+                self.worksheet3.write(xi, yi, p16A1 + p17A1 + p18A1 + p19A1 + p20A1 + p21A1 + p22A1)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, p17A2)
+                self.worksheet3.write(xi, yi, p16A2 + p17A2 + p18A2 + p19A2 + p20A2 + p21A2 + p22A2)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, p17A3)
+                self.worksheet3.write(xi, yi, p16A3 + p17A3 + p18A3 + p19A3 + p20A3 + p21A3 + p22A3)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, p17A4)
+                self.worksheet3.write(xi, yi, p16A4 + p17A4 + p18A4 + p19A4 + p20A4 + p21A4 + p22A4)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, p17B1)
+                self.worksheet3.write(xi, yi, p16B1 + p17B1 + p18B1 + p19B1 + p20B1 + p21B1 + p22B1)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, p17B2)
+                self.worksheet3.write(xi, yi, p16B2 + p17B2 + p18B2 + p19B2 + p20B2 + p21B2 + p22B2)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, p17B3)
+                self.worksheet3.write(xi, yi, p16B3 + p17B3 + p18B3 + p19B3 + p20B3 + p21B3 + p22B3)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, p17B4)
+                self.worksheet3.write(xi, yi, p16B4 + p17B4 + p18B4 + p19B4 + p20B4 + p21B4 + p22B4)
                 yi = yi + 1
-                self.worksheet3.write(xi, yi, p17C)
+                self.worksheet3.write(xi, yi, p16C + p17C + p18C + p19C + p20C + p21C + p22C)
                 yi = yi + 3
                 
                 yi = yi - 1
@@ -1390,7 +1388,7 @@ class Application:
                     w_sheet.write(row_num, 12, totalNotas2)
                     
                     w_sheet = wb.get_sheet(1)
-                    totalNotas2 = nota172
+                    totalNotas2 = nota162 + nota172 + nota182 + nota192 + nota202 + nota212 + nota222
 
                     somaNotas2 = somaNotas2 + totalNotas2
                     w_sheet.write(nt, yi, totalNotas2)
@@ -1487,7 +1485,7 @@ class Application:
         #Centrar o ecrã
         center(self.layout)
     
-        def mapear():
+        def mapear(self):
             self.map.destroy()
             self.mapY.destroy()
             self.mapN.destroy()
@@ -1507,8 +1505,10 @@ class Application:
             df = pd.read_excel(self.file)
             df2 = pd.read_csv('qualis.csv')
             R = list(Counter(df['Titulo Periodico ou Revista']))[1:]
+            self.worksheet.write(0, 10, "Estrato Antigo")
 
             dic = {}
+
 
             for revista in R:
                 idxrevista = df2[df2['Título'] == revista.upper()].index
@@ -1519,11 +1519,9 @@ class Application:
                     estratoantigo = np.nan
                     
                 dic[revista] = estratoantigo
-
             for revista in dic:
                 idxs = df[df["Titulo Periodico ou Revista"] == revista].index
-                df.loc[idxs, "Estrato Antigo"] = dic[revista]
-            df.to_excel(self.file)
+                self.worksheet.write(idxs, 10, dic[revista])
                                                 
             #Centrar o ecrã
             center(self.layout)
