@@ -126,8 +126,6 @@ class Application:
         self.worksheet3 = self.workbook.add_sheet(u'Planilha_2')
         self.worksheet3.write(0, self.col, u'Professor')
         self.col = self.col + 1
-        self.worksheet3.write(0, self.col, u'Conferência')
-        self.col = self.col + 1
 
         for item in notas:
             self.worksheet3.write(0, self.col, item)
@@ -510,7 +508,6 @@ class Application:
                             font=("Calibri", "16"))
                 self.msg6.grid(row=2, column=1, sticky=S, pady=30)
 
-            x = x + 1
 
             #Varre currículo
             for trabalhos in root.iter('TRABALHO-EM-EVENTOS'):        
@@ -1227,8 +1224,8 @@ class Application:
                                 p22C = p22C + 1
                         
                     x = x + 1
-            self.worksheet.write(x, 11, 'Nota Total')
-            self.worksheet.write(x, 12, totalNota)
+            self.worksheet.write(x-1, 12, 'Nota Total')
+            self.worksheet.write(x-1, 13, totalNota)
             contTotalc = cont16c + cont17c + cont18c + cont19c + cont20c + cont21c + cont22c
             contTotalp = cont16p + cont17p + cont18p + cont19p + cont20p + cont21p + cont22p
             totalNota = nota16 + nota17 + nota18 + nota19 + nota20 + nota21 + nota22
@@ -1344,19 +1341,20 @@ class Application:
 
             dic = {}
 
-
             for revista in R:
                 idxrevista = df2[df2['Título'] == revista.upper()].index
-                
                 if len(idxrevista) > 0:
                     estratoantigo = df2.loc[idxrevista]['Estrato'][idxrevista[0]]
                 else:
-                    estratoantigo = np.nan
+                    estratoantigo = ''
                     
                 dic[revista] = estratoantigo
+
             for revista in dic:
                 idxs = df[df["Titulo Periodico ou Revista"] == revista].index
-                w_sheet.write(idxs, 11, dic[revista])
+                w_sheet.write(idxs.values[0], 11, dic[revista])
+
+            wb.save(self.file)
                                                 
             #Centrar o ecrã
             center(self.layout)
@@ -1427,8 +1425,8 @@ class Application:
                     elif (row[2] == '2022'):
                         nota222 = nota222 + novaNota2
                     
-                if (row[11] == 'Nota Total'):
-                    w_sheet.write(row_num, 12, totalNotas2)
+                if (row[12] == 'Nota Total'):
+                    w_sheet.write(row_num, 13, totalNotas2)
                     
                     w_sheet = wb.get_sheet(1)
                     totalNotas2 = nota162 + nota172 + nota182 + nota192 + nota202 + nota212 + nota222
