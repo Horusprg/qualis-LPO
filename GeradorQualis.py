@@ -126,7 +126,8 @@ class Application:
         self.worksheet3 = self.workbook.add_sheet(u'Planilha_2')
         self.worksheet3.write(0, self.col, u'Professor')
         self.col = self.col + 1
-
+        self.worksheet3.write(0, self.col, u'Conferência')
+        self.col = self.col + 1
         for item in notas:
             self.worksheet3.write(0, self.col, item)
             self.col = self.col + 1
@@ -138,7 +139,6 @@ class Application:
             self.worksheet3.write(0, self.col, item)
             self.col = self.col + 1
 
-        self.col = self.col + 1
         self.home()
         self.layout.mainloop()
 
@@ -1234,7 +1234,7 @@ class Application:
             yi = 0
             if (xi <= len(curriculos)):
                 self.worksheet3.write(xi, yi, nomeProf)
-                yi = yi + 2
+                yi = yi + 1
             
                 self.worksheet3.write(xi, yi, cont16c + cont17c + cont18c + cont19c + cont20c + cont21c + cont22c)
                 yi = yi + 1
@@ -1275,9 +1275,8 @@ class Application:
                 self.worksheet3.write(xi, yi, p16B4 + p17B4 + p18B4 + p19B4 + p20B4 + p21B4 + p22B4)
                 yi = yi + 1
                 self.worksheet3.write(xi, yi, p16C + p17C + p18C + p19C + p20C + p21C + p22C)
-                yi = yi + 3
-                
-                yi = yi - 1
+                yi = yi + 1
+
                 self.worksheet3.write(xi, yi, contTotalc)
                 yi = yi + 1
                 self.worksheet3.write(xi, yi, contTotalp)
