@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "qualis-lpo-352601",
+  "private_key_id": "bdbed9f1c6dd9fae6d57ccf099167ea3a8bda6cf",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCqT71D0vnnmdzY\n4bqOx8v0QrQZ1WBtiqsJkhtaMPTvtvyeiO8Y556kb6PjixRpGTKrY3HDiLZvc5/S\nRbLRrz6HoIt4NprwP6jHF8WjJux6IwSLkU4dg13UOsAFVYPV/RZWpb1S0z5wdJi9\n+37OXMQaTRO8rgIHQC/czb3UyhfJcpm3FM/S8lzL0cPcEZRMcnIDBGqL3kzQauO1\n51urOg0ffFF1BlGN8Vi6xODoxuPnKWIfGM+5Z6Mj3OgS7aA0ewdDx5AHKbPFE7YC\n3fKlPRHwtHbkXXAo8FR637Ago0VHZoS5OzcM3cNERDkYl3U8EoPq75BA9rGdfSWo\nmqU0DTxpAgMBAAECggEAAIwMYqEt9SCsU8f2ni7SMn3fFQjiKlBbgd+SO0hBAPCe\nWmu8RBnsB+hh86Z7JfSqR2d2d9nyx0tJfpFY4raR6FXtR99ysmCrhrdp/AmjET1Q\nB0zL1xCDMmirvF7faI1vBkhr+vF5y2k1IqxQJoD2Tq+ZKxcVgAAoKBcfe+G7sTA4\njj6I9W8OYxJ3eDYUI8vd67wN8uInjHw6PnXS+pCNBAG7nR9ioybAY5uDq477WVOO\nXHkp0aGLkKVDp84ZiSutUlmJWXdyWa3aVGWrC9iwa4knIHjkCbIRPrYCmpNTJDYp\nBos2ZoRXcpvAxtx7tb8aE5MCu/ZvC2ixecTlawU7AQKBgQDRCtZlk10f5U1E87yF\nmBhidA62buGpoeICnTbgB7M34SChxFPYHvbQXg89OwNf8bUh1PaRgiHZIFZm10OV\nr+a8qbtB3RKiN3R+24ktJ7d8HhLzWdoyPY1Zf1RfUQ2sukTswAijwJbPzDNh850/\n+615GS/BBkaNDBOIGZZ2iQEjAQKBgQDQkaZ2lQcS9XUO7klQdPBjCjw7egr1Q/yV\nVic+Cp7NrKah1JswIzGcrulsh3VcOwVToGTwyhNwO0z7vEqNqPRe1kfrufPj2SSV\njRy7Z/zxYS1mm82pzvODC/0bxhg6jHXW023tOlDkOkIP36p8UKbs6akjwwWHg7Il\nVN5KTNLhaQKBgEX427Uac7SGe6vV7kfFlnv2HyqfyPeQEWgQmdq5mRreR57+aZZR\nHwq2QWGcjE+kR54we+xO4+ea9HDuI1hKjfCe2+h7CI62A0+nSq6LudZY9rzwWaIx\nikvn3CUfq3Ui0Ily6jFt+M1Lq/NgqUVOiE2dyadR43G5FhybfArnZzMBAoGAU+Ig\nZxTs8W0TFVw01E0T2WFmdC1Tdu1PCujJg6RV1jaYFgIiICwnafLXIrUgOGXscIPT\n1RwQ0VSoU56ZBXxsPDBGYMI7GupcUmGcqqraCmKhFeGXx7HaMlyCAcecOv/+7NXA\nImcP3ZqosyWrta/iUupvAlkPQj9vSKBnfs6DCfECgYApVfvcMvD3BKY50C+PMF8q\nzdM5vJgZ2LREITPkQTECcF88feUqR72XahJt/3EroJARCeN74RyLJHSC65n83kcE\n6msNNHBZQG6M3+7mrw/QdBodGsMnb7chGCc16OtWjXhoSuVmxzUdpIieDGbdV6Jf\nrc7EstgWGxNV1U8+c//qpQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "qualislpo@qualis-lpo-352601.iam.gserviceaccount.com",
+  "client_id": "116037756446056124453",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/qualislpo%40qualis-lpo-352601.iam.gserviceaccount.com"
+}
