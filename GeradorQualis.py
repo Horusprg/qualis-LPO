@@ -16,7 +16,10 @@ from collections import Counter
 import numpy as np
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from pyscopus import Scopus
 
+scopusCredential = "8b9806cfff811b4eea0bd013f003832e"
+scopus = Scopus(scopusCredential)
 scope = ['https://www.googleapis.com/auth/spreadsheets']
 credentials = ServiceAccountCredentials.from_json_keyfile_name('qualis-lpo-352601-bdbed9f1c6dd.json', scope)
 gc = gspread.authorize(credentials)
