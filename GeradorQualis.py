@@ -14,19 +14,26 @@ from tkinter import messagebox
 import pandas as pd
 from collections import Counter
 import numpy as np
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-from pyscopus import Scopus
 
-scopusCredential = "8b9806cfff811b4eea0bd013f003832e"
-scopus = Scopus(scopusCredential)
-scope = ['https://www.googleapis.com/auth/spreadsheets']
-credentials = ServiceAccountCredentials.from_json_keyfile_name('qualis-lpo-352601-bdbed9f1c6dd.json', scope)
-gc = gspread.authorize(credentials)
 
-sht1 = gc.open_by_key('10sObNyyL7veHGFbOyizxM8oVsppQoWV-0ALrDr8FxQ0')
-percentil = sht1.get_worksheet(0)
-percentil = pd.DataFrame(percentil.get_all_records())
+citescore = pd.read_excel("CiteScore.xls")
+def calcPercentil(score):
+    if score >= 87.5:
+        return 'A1'
+    elif score < 87.5 and score >=75:
+        return 'A2'
+    elif score < 75 and score >= 62.5:
+        return 'A3'
+    elif score < 62.5 and score >= 50:
+        return 'A4'
+    elif score < 50 and score >= 37.5:
+        return 'B1'
+    elif score < 37.5 and score >= 25:
+        return 'B2'
+    elif score < 25 and score >= 12.5:
+        return 'B3'
+    elif score < 12.5:
+        return 'B4'
 #Referências
 listaBase = ['A Novel Procedure for Classification of Early Human Actions from EEG Signals',
 			'A Model for Classification of Early Human Actions from EEG Signals',
@@ -1035,11 +1042,11 @@ class Application:
                                 estratos2 = resultado_total[i+1]
                                 break
                             else:
-                                if (str(resultado2[6]).upper() in percentil["Qualis_Final"]):
-                                    estratos2 = percentil["Qualis_Final"].loc[percentil["periodico"] == str(resultado2[6]).upper()].values[0]
-                                elif (str(resultado2[5]).upper() in percentil["Qualis_Final"]):
-                                    estratos2 = percentil["Qualis_Final"].loc[percentil["periodico"] == str(resultado2[5]).upper()].values[0]
-                                else:
+                                score2 = citescore["Percentile"].loc[citescore["Title"].values == resultado2[5]].values
+                                try:
+                                    score2 = score2.max()
+                                    estratos2 = calcPercentil(score2)
+                                except:
                                     estratos2 = '-'
                     
                     self.worksheet.write(x, 0, nomeProf)
